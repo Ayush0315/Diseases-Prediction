@@ -1,3 +1,4 @@
+# Diabetes Prediction Page
 import os
 import pickle
 import streamlit as st
@@ -30,9 +31,7 @@ with st.sidebar:
                            menu_icon='hospital-fill',
                            icons=['activity', 'heart', 'person'],
                            default_index=0)
-
-
-# Diabetes Prediction Page
+    
 if selected == 'Diabetes Prediction':
 
     # page title
@@ -42,29 +41,28 @@ if selected == 'Diabetes Prediction':
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        Pregnancies = st.text_input('Number of Pregnancies')
+        Pregnancies = st.slider('Number of Pregnancies', min_value=0, max_value=17, step=1)
 
     with col2:
-        Glucose = st.text_input('Glucose Level')
+        Glucose = st.slider('Glucose Level', min_value=0, max_value=200, step=1)
 
     with col3:
-        BloodPressure = st.text_input('Blood Pressure value')
+        BloodPressure = st.slider('Blood Pressure value', min_value=0, max_value=150, step=1)
 
     with col1:
-        SkinThickness = st.text_input('Skin Thickness value')
+        SkinThickness = st.slider('Skin Thickness value', min_value=0, max_value=100, step=1)
 
     with col2:
-        Insulin = st.text_input('Insulin Level')
+        Insulin = st.slider('Insulin Level', min_value=0, max_value=900, step=1)
 
     with col3:
-        BMI = st.text_input('BMI value')
+        BMI = st.slider('BMI value', min_value=0.0, max_value=70.0, step=0.1)
 
     with col1:
-        DiabetesPedigreeFunction = st.text_input('Diabetes Pedigree Function value')
+        DiabetesPedigreeFunction = st.slider('Diabetes Pedigree Function value', min_value=0.0, max_value=3.0, step=0.01)
 
     with col2:
-        Age = st.text_input('Age of the Person')
-
+        Age = st.slider('Age of the Person', min_value=21, max_value=90, step=1)
 
     # code for Prediction
     diab_diagnosis = ''
@@ -75,8 +73,6 @@ if selected == 'Diabetes Prediction':
 
         user_input = [Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin,
                       BMI, DiabetesPedigreeFunction, Age]
-
-        user_input = [float(x) for x in user_input]
 
         diab_prediction = diabetes_model.predict([user_input])
 
@@ -96,54 +92,55 @@ if selected == 'Heart Disease Prediction':
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        age = st.text_input('Age')
+        age = st.slider('Age', min_value=0, max_value=100, step=1)
 
     with col2:
-        sex = st.text_input('Sex')
+        sex = st.selectbox('Sex', ['Male', 'Female'])
 
     with col3:
-        cp = st.text_input('Chest Pain types')
+        cp = st.slider('Chest Pain types', min_value=0, max_value=3, step=1)
 
     with col1:
-        trestbps = st.text_input('Resting Blood Pressure')
+        trestbps = st.slider('Resting Blood Pressure', min_value=90, max_value=200, step=1)
 
     with col2:
-        chol = st.text_input('Serum Cholestoral in mg/dl')
+        chol = st.slider('Serum Cholestoral in mg/dl', min_value=100, max_value=400, step=1)
 
     with col3:
-        fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl')
+        fbs = st.selectbox('Fasting Blood Sugar > 120 mg/dl', ['No', 'Yes'])
 
     with col1:
-        restecg = st.text_input('Resting Electrocardiographic results')
+        restecg = st.slider('Resting Electrocardiographic results', min_value=0, max_value=2, step=1)
 
     with col2:
-        thalach = st.text_input('Maximum Heart Rate achieved')
+        thalach = st.slider('Maximum Heart Rate achieved', min_value=60, max_value=200, step=1)
 
     with col3:
-        exang = st.text_input('Exercise Induced Angina')
+        exang = st.selectbox('Exercise Induced Angina', ['No', 'Yes'])
 
     with col1:
-        oldpeak = st.text_input('ST depression induced by exercise')
+        oldpeak = st.slider('ST depression induced by exercise', min_value=0.0, max_value=6.2, step=0.1)
 
     with col2:
-        slope = st.text_input('Slope of the peak exercise ST segment')
+        slope = st.slider('Slope of the peak exercise ST segment', min_value=0, max_value=2, step=1)
 
     with col3:
-        ca = st.text_input('Major vessels colored by flourosopy')
+        ca = st.slider('Major vessels colored by flourosopy', min_value=0, max_value=4, step=1)
 
     with col1:
-        thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversable defect')
+        thal = st.slider('thal: 0 = normal; 1 = fixed defect; 2 = reversable defect', min_value=0, max_value=2, step=1)
 
     # code for Prediction
     heart_diagnosis = ''
 
     # creating a button for Prediction
-
     if st.button('Heart Disease Test Result'):
 
         user_input = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
 
-        user_input = [float(x) for x in user_input]
+        user_input[1] = 1 if user_input[1] == 'Male' else 0
+        user_input[6] = 0 if user_input[6] == 'No' else 1
+        user_input[9] = float(user_input[9])  # Converting oldpeak to float
 
         heart_prediction = heart_disease_model.predict([user_input])
 
@@ -154,6 +151,7 @@ if selected == 'Heart Disease Prediction':
 
     st.success(heart_diagnosis)
 
+# Parkinsons Prediction Page
 # Parkinson's Prediction Page
 if selected == "Parkinsons Prediction":
 
@@ -163,70 +161,70 @@ if selected == "Parkinsons Prediction":
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
-        fo = st.text_input('MDVP:Fo(Hz)')
+        fo = st.slider('MDVP:Fo(Hz)', min_value=0.0, max_value=300.0, step=0.1)
 
     with col2:
-        fhi = st.text_input('MDVP:Fhi(Hz)')
+        fhi = st.slider('MDVP:Fhi(Hz)', min_value=0.0, max_value=300.0, step=0.1)
 
     with col3:
-        flo = st.text_input('MDVP:Flo(Hz)')
+        flo = st.slider('MDVP:Flo(Hz)', min_value=0.0, max_value=300.0, step=0.1)
 
     with col4:
-        Jitter_percent = st.text_input('MDVP:Jitter(%)')
+        Jitter_percent = st.slider('MDVP:Jitter(%)', min_value=0.0, max_value=2.0, step=0.01)
 
     with col5:
-        Jitter_Abs = st.text_input('MDVP:Jitter(Abs)')
+        Jitter_Abs = st.slider('MDVP:Jitter(Abs)', min_value=0.0, max_value=0.1, step=0.001)
 
     with col1:
-        RAP = st.text_input('MDVP:RAP')
+        RAP = st.slider('MDVP:RAP', min_value=0.0, max_value=0.1, step=0.001)
 
     with col2:
-        PPQ = st.text_input('MDVP:PPQ')
+        PPQ = st.slider('MDVP:PPQ', min_value=0.0, max_value=0.1, step=0.001)
 
     with col3:
-        DDP = st.text_input('Jitter:DDP')
+        DDP = st.slider('Jitter:DDP', min_value=0.0, max_value=0.1, step=0.001)
 
     with col4:
-        Shimmer = st.text_input('MDVP:Shimmer')
+        Shimmer = st.slider('MDVP:Shimmer', min_value=0.0, max_value=0.1, step=0.001)
 
     with col5:
-        Shimmer_dB = st.text_input('MDVP:Shimmer(dB)')
+        Shimmer_dB = st.slider('MDVP:Shimmer(dB)', min_value=0.0, max_value=5.0, step=0.01)
 
     with col1:
-        APQ3 = st.text_input('Shimmer:APQ3')
+        APQ3 = st.slider('Shimmer:APQ3', min_value=0.0, max_value=0.1, step=0.001)
 
     with col2:
-        APQ5 = st.text_input('Shimmer:APQ5')
+        APQ5 = st.slider('Shimmer:APQ5', min_value=0.0, max_value=0.1, step=0.001)
 
     with col3:
-        APQ = st.text_input('MDVP:APQ')
+        APQ = st.slider('MDVP:APQ', min_value=0.0, max_value=0.1, step=0.001)
 
     with col4:
-        DDA = st.text_input('Shimmer:DDA')
+        DDA = st.slider('Shimmer:DDA', min_value=0.0, max_value=0.1, step=0.001)
 
     with col5:
-        NHR = st.text_input('NHR')
+        NHR = st.slider('NHR', min_value=0.0, max_value=0.5, step=0.01)
 
     with col1:
-        HNR = st.text_input('HNR')
+        HNR = st.slider('HNR', min_value=0.0, max_value=35.0, step=0.1)
 
     with col2:
-        RPDE = st.text_input('RPDE')
+        RPDE = st.slider('RPDE', min_value=0.0, max_value=1.0, step=0.01)
 
     with col3:
-        DFA = st.text_input('DFA')
+        DFA = st.slider('DFA', min_value=0.0, max_value=1.0, step=0.01)
 
     with col4:
-        spread1 = st.text_input('spread1')
+        spread1 = st.slider('spread1', min_value=-10.0, max_value=10.0, step=0.1)
 
     with col5:
-        spread2 = st.text_input('spread2')
+        spread2 = st.slider('spread2', min_value=-10.0, max_value=10.0, step=0.1)
 
     with col1:
-        D2 = st.text_input('D2')
+        D2 = st.slider('D2', min_value=0.0, max_value=10.0, step=0.1)
 
     with col2:
-        PPE = st.text_input('PPE')
+        PPE = st.slider('PPE', min_value=0.0, max_value=1.0, step=0.01)
 
     # code for Prediction
     parkinsons_diagnosis = ''
@@ -238,8 +236,6 @@ if selected == "Parkinsons Prediction":
                       RAP, PPQ, DDP,Shimmer, Shimmer_dB, APQ3, APQ5,
                       APQ, DDA, NHR, HNR, RPDE, DFA, spread1, spread2, D2, PPE]
 
-        user_input = [float(x) for x in user_input]
-
         parkinsons_prediction = parkinsons_model.predict([user_input])
 
         if parkinsons_prediction[0] == 1:
@@ -248,3 +244,5 @@ if selected == "Parkinsons Prediction":
             parkinsons_diagnosis = "The person does not have Parkinson's disease"
 
     st.success(parkinsons_diagnosis)
+
+
